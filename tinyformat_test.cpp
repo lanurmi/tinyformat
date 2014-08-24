@@ -184,6 +184,11 @@ int unitTests()
     // Check that 0-argument formatting is printf-compatible
     CHECK_EQUAL(tfm::format("100%%"), "100%");
 
+    // Check that std::string as the format string compiles and returns something.
+    std::string f1("%d"), f0("abc");
+    CHECK_EQUAL(tfm::format(f1, 123), "123");
+    CHECK_EQUAL(tfm::format(f0), "abc");
+
     // printf incompatibilities:
     // compareSprintf("%6.4x", 10); // precision & width can't be supported independently
     // compareSprintf("%.4d", -10); // negative numbers + precision don't quite work.

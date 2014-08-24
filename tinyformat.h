@@ -942,6 +942,14 @@ std::string format(const char* fmt, const Args&... args)
     return oss.str();
 }
 
+/// Format list of arguments according to the given format string and return
+/// the result as a string.
+template<typename... Args>
+std::string format(const std::string& fmt, const Args&... args)
+{
+    return format(fmt.c_str(), args...);
+}
+
 /// Format list of arguments to std::cout, according to the given format string
 template<typename... Args>
 void printf(const char* fmt, const Args&... args)
@@ -964,6 +972,11 @@ inline std::string format(const char* fmt)
     return oss.str();
 }
 
+inline std::string format(const std::string& fmt)
+{
+    return format(fmt.c_str());
+}
+
 inline void printf(const char* fmt)
 {
     format(std::cout, fmt);
@@ -983,6 +996,12 @@ std::string format(const char* fmt, TINYFORMAT_VARARGS(n))                \
     std::ostringstream oss;                                               \
     format(oss, fmt, TINYFORMAT_PASSARGS(n));                             \
     return oss.str();                                                     \
+}                                                                         \
+                                                                          \
+template<TINYFORMAT_ARGTYPES(n)>                                          \
+std::string format(const std::string& fmt, TINYFORMAT_VARARGS(n))         \
+{                                                                         \
+    return format(fmt.c_str(), TINYFORMAT_PASSARGS(n));                   \
 }                                                                         \
                                                                           \
 template<TINYFORMAT_ARGTYPES(n)>                                          \
